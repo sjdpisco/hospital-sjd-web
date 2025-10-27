@@ -3,419 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital San Juan de Dios - Sistema de Gestión</title>
-    
-    <!-- Bootstrap CSS -->
+    <title>Login - Hospital San Juan de Dios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
-    <!-- ========================================
-         SECCIÓN DE LOGIN
-         ======================================== -->
-    <div id="loginSection" class="d-none">
-        <div class="login-screen">
-            <div class="login-container">
-                <div class="login-header text-center mb-4">
-                    <div class="hospital-icon mx-auto mb-3">
-                        <i class="bi bi-hospital" style="font-size: 3rem; color: white;"></i>
-                    </div>
-                    <h1 class="h3 mb-2">Hospital San Juan de Dios</h1>
-                    <p class="text-muted">Sistema de Gestión de Pacientes</p>
+    <div class="login-screen">
+        <div class="login-container">
+            <div class="login-header text-center mb-4">
+                <div class="hospital-icon mx-auto mb-3">
+                    <i class="bi bi-hospital" style="font-size: 3rem; color: white;"></i>
+                </div>
+                <h1 class="h3 mb-2">Hospital San Juan de Dios</h1>
+                <p class="text-muted">Sistema de Gestión de Pacientes</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="usuario" class="form-label">Usuario</label>
+                    <input type="text" class="form-control" id="usuario" required>
                 </div>
                 
-                <form id="loginForm">
-                    <div class="mb-3">
-                        <label for="usuario" class="form-label">Usuario</label>
-                        <input type="text" class="form-control" id="usuario" required>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="contraseña" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="contraseña" required>
-                    </div>
-                    
-                    <button type="submit" id="btnLogin" class="btn btn-primary w-100">
-                        Ingresar
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========================================
-         SECCIÓN DE DASHBOARD
-         ======================================== -->
-    <div id="dashboardSection" class="d-none">
-        
-        <!-- NAVBAR -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <i class="bi bi-hospital"></i> Hospital San Juan de Dios
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
+                <div class="mb-3">
+                    <label for="contraseña" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="contraseña" required>
+                </div>
+                
+                <button type="submit" id="btnLogin" class="btn btn-primary w-100">
+                    Ingresar
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <span class="navbar-text text-white me-3">
-                                <i class="bi bi-person-circle"></i> 
-                                <span id="nombreUsuario"></span> 
-                                (<span id="rolUsuario"></span>)
-                            </span>
-                        </li>
-                        <li class="nav-item">
-                            <button class="btn btn-outline-light btn-sm" id="btnCerrarSesion">
-                                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <div class="container-fluid">
-            <div class="row">
-                
-                <!-- SIDEBAR -->
-                <div class="col-md-3 col-lg-2 bg-light sidebar p-3">
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-outline-primary nav-btn active" data-seccion="inicio">
-                            <i class="bi bi-house-door"></i> Inicio
-                        </button>
-                        <button class="btn btn-outline-primary nav-btn" data-seccion="nuevoRegistro">
-                            <i class="bi bi-person-plus"></i> Nuevo Registro
-                        </button>
-                        <button class="btn btn-outline-primary nav-btn" data-seccion="buscarPaciente">
-                            <i class="bi bi-search"></i> Buscar Paciente
-                        </button>
-                        <button class="btn btn-outline-primary nav-btn" data-seccion="seguimiento">
-                            <i class="bi bi-clipboard-pulse"></i> Seguimiento
-                        </button>
-                        <button class="btn btn-outline-primary nav-btn" data-seccion="listaPacientes">
-                            <i class="bi bi-list-ul"></i> Lista de Pacientes
-                        </button>
-                        <button class="btn btn-outline-primary nav-btn" data-seccion="configuracion">
-                            <i class="bi bi-gear"></i> Configuración
-                        </button>
-                    </div>
-                </div>
-
-                <!-- CONTENIDO PRINCIPAL -->
-                <div class="col-md-9 col-lg-10 p-4">
-                    
-                    <!-- ========================================
-                         SECCIÓN INICIO
-                         ======================================== -->
-                    <div id="inicioSection" class="content-section">
-                        <h2 class="mb-4"><i class="bi bi-house-door"></i> Panel de Inicio</h2>
-                        
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <div class="card text-white bg-primary">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><i class="bi bi-people"></i> Total Pacientes</h5>
-                                        <h2 class="card-text">-</h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="card text-white bg-success">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><i class="bi bi-check-circle"></i> Pacientes Activos</h5>
-                                        <h2 class="card-text">-</h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="card text-white bg-warning">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><i class="bi bi-calendar-event"></i> Registros Hoy</h5>
-                                        <h2 class="card-text">-</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="alert alert-info mt-4">
-                            <h5><i class="bi bi-info-circle"></i> Bienvenido al Sistema</h5>
-                            <p>Utiliza el menú lateral para navegar entre las diferentes secciones del sistema.</p>
-                        </div>
-                    </div>
-
-                    <!-- ========================================
-                         SECCIÓN NUEVO REGISTRO
-                         ======================================== -->
-                    <div id="nuevoRegistroSection" class="content-section d-none">
-                        <h2 class="mb-4"><i class="bi bi-person-plus"></i> Nuevo Registro de Paciente</h2>
-                        
-                        <div class="card">
-                            <div class="card-body">
-                                <form id="formNuevoRegistro">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="nombres_apellidos" class="form-label">Nombres y Apellidos *</label>
-                                            <input type="text" class="form-control" id="nombres_apellidos" required>
-                                        </div>
-                                        <div class="col-md-3 mb-3">
-                                            <label for="edad" class="form-label">Edad *</label>
-                                            <input type="number" class="form-control" id="edad" required>
-                                        </div>
-                                        <div class="col-md-3 mb-3">
-                                            <label for="dni" class="form-label">DNI *</label>
-                                            <input type="text" class="form-control" id="dni" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-3">
-                                            <label for="direccion" class="form-label">Dirección *</label>
-                                            <input type="text" class="form-control" id="direccion" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="celular" class="form-label">Celular *</label>
-                                            <input type="tel" class="form-control" id="celular" required>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="celular_opcional" class="form-label">Celular Opcional</label>
-                                            <input type="tel" class="form-control" id="celular_opcional">
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-4 mb-3">
-                                            <label for="muestra" class="form-label">Tipo de Muestra *</label>
-                                            <select class="form-select" id="muestra" required>
-                                                <option value="">Seleccione...</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label for="resultado" class="form-label">Resultado *</label>
-                                            <select class="form-select" id="resultado" required>
-                                                <option value="">Seleccione...</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label for="ya_cuenta_con" class="form-label">Ya Cuenta Con</label>
-                                            <select class="form-select" id="ya_cuenta_con">
-                                                <option value="">Seleccione...</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-3">
-                                            <label for="observacion" class="form-label">Observación</label>
-                                            <textarea class="form-control" id="observacion" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-3">
-                                            <label for="tratamiento_particular" class="form-label">Tratamiento Particular</label>
-                                            <textarea class="form-control" id="tratamiento_particular" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-grid gap-2">
-                                        <button type="submit" id="btnGuardarRegistro" class="btn btn-primary btn-lg">
-                                            <i class="bi bi-save"></i> Guardar Registro
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ========================================
-                         SECCIÓN BUSCAR PACIENTE
-                         ======================================== -->
-                    <div id="buscarPacienteSection" class="content-section d-none">
-                        <h2 class="mb-4"><i class="bi bi-search"></i> Buscar Paciente</h2>
-                        
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <form id="formBusqueda">
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <input type="text" class="form-control" id="criterioBusqueda" 
-                                                   placeholder="Buscar por ID, Nombre, DNI o Celular..." required>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <button type="submit" id="btnBuscar" class="btn btn-primary w-100">
-                                                <i class="bi bi-search"></i> Buscar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div id="resultadosBusqueda"></div>
-                    </div>
-
-                    <!-- ========================================
-                         SECCIÓN SEGUIMIENTO
-                         ======================================== -->
-                    <div id="seguimientoSection" class="content-section d-none">
-                        <h2 class="mb-4"><i class="bi bi-clipboard-pulse"></i> Seguimiento de Paciente</h2>
-                        
-                        <div class="alert alert-info">
-                            <i class="bi bi-info-circle"></i> Primero busca un paciente para agregar seguimiento
-                        </div>
-
-                        <div class="card mb-4">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="mb-0">Datos del Paciente</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label">Nombres y Apellidos</label>
-                                        <input type="text" class="form-control" id="seguimientoNombres" readonly>
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">Edad</label>
-                                        <input type="text" class="form-control" id="seguimientoEdad" readonly>
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">DNI</label>
-                                        <input type="text" class="form-control" id="seguimientoDni" readonly>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label">Dirección</label>
-                                        <input type="text" class="form-control" id="seguimientoDireccion" readonly>
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label">Celular</label>
-                                        <input type="text" class="form-control" id="seguimientoCelular" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-4">
-                            <div class="card-header bg-success text-white">
-                                <h5 class="mb-0">Nuevo Seguimiento</h5>
-                            </div>
-                            <div class="card-body">
-                                <form id="formSeguimiento">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="seguimientoCelularOpcional" class="form-label">Celular Opcional</label>
-                                            <input type="tel" class="form-control" id="seguimientoCelularOpcional">
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-4 mb-3">
-                                            <label for="seguimientoMuestra" class="form-label">Tipo de Muestra *</label>
-                                            <select class="form-select" id="seguimientoMuestra" required>
-                                                <option value="">Seleccione...</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label for="seguimientoResultado" class="form-label">Resultado *</label>
-                                            <select class="form-select" id="seguimientoResultado" required>
-                                                <option value="">Seleccione...</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label for="seguimientoCuentaCon" class="form-label">Ya Cuenta Con</label>
-                                            <select class="form-select" id="seguimientoCuentaCon">
-                                                <option value="">Seleccione...</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-3">
-                                            <label for="seguimientoObservacion" class="form-label">Observación</label>
-                                            <textarea class="form-control" id="seguimientoObservacion" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-3">
-                                            <label for="seguimientoTratamiento" class="form-label">Tratamiento Particular</label>
-                                            <textarea class="form-control" id="seguimientoTratamiento" rows="3"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <button type="submit" id="btnGuardarSeguimiento" class="btn btn-success w-100">
-                                        <i class="bi bi-save"></i> Guardar Seguimiento
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header bg-info text-white">
-                                <h5 class="mb-0">Historial del Paciente</h5>
-                            </div>
-                            <div class="card-body">
-                                <div id="historialPaciente">
-                                    <div class="alert alert-info">No hay historial disponible</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ========================================
-                         SECCIÓN LISTA DE PACIENTES
-                         ======================================== -->
-                    <div id="listaPacientesSection" class="content-section d-none">
-                        <h2 class="mb-4"><i class="bi bi-list-ul"></i> Lista de Todos los Pacientes</h2>
-                        
-                        <div class="card">
-                            <div class="card-body">
-                                <div id="listaPacientesContainer">
-                                    <div class="text-center">
-                                        <div class="spinner-border" role="status">
-                                            <span class="visually-hidden">Cargando...</span>
-                                        </div>
-                                        <p>Cargando pacientes...</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ========================================
-                         SECCIÓN CONFIGURACIÓN
-                         ======================================== -->
-                    <div id="configuracionSection" class="content-section d-none">
-                        <h2 class="mb-4"><i class="bi bi-gear"></i> Configuración</h2>
-                        
-                        <div class="alert alert-warning">
-                            <i class="bi bi-exclamation-triangle"></i> Sección en desarrollo
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 
-    <!-- Contenedor de Alertas -->
-    <div id="alertContainer"></div>
-
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- API Service -->
     <script src="api-service.js"></script>
-    <!-- App JS -->
-    <script src="app.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const usuario = document.getElementById('usuario').value;
+            const contraseña = document.getElementById('contraseña').value;
+            const btnLogin = document.getElementById('btnLogin');
+            
+            btnLogin.disabled = true;
+            btnLogin.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Ingresando...';
+            
+            try {
+                const data = await ApiService.login(usuario, contraseña);
+                
+                if (data.success) {
+                    localStorage.setItem('usuario', JSON.stringify(data.data));
+                    alert('¡Bienvenido ' + data.data.nombre_completo + '!');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                alert('Error de conexión: ' + error.message);
+            } finally {
+                btnLogin.disabled = false;
+                btnLogin.textContent = 'Ingresar';
+            }
+        });
+    </script>
 </body>
 </html>
