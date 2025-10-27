@@ -1,287 +1,179 @@
-// URL de la API de Apps Script
+// src/services/api.js
+
 const API_URL = 'https://script.google.com/macros/s/AKfycbxToelrJkVmRQYgdrtR5W9qT9ZjcebWwFeTseDOr8Vc1SMeHwcLAAkebeulv7rUFtDO/exec';
 
-// Servicio de API
-const ApiService = {
-    // Login
-    async login(usuario, contraseña) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'login',
-                    usuario: usuario,
-                    contraseña: contraseña
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error en login:', error);
-            throw error;
-        }
-    },
+// Función auxiliar para hacer peticiones GET
+async function fetchData(action, params = {}) {
+  try {
+    const queryParams = new URLSearchParams({
+      action,
+      ...params
+    });
+    
+    const response = await fetch(`${API_URL}?${queryParams.toString()}`, {
+      method: 'GET',
+      redirect: 'follow'
+    });
 
-    // Registrar nuevo paciente
-    async registrarPaciente(datoPaciente) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'registrar_paciente',
-                    ...datoPaciente
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al registrar paciente:', error);
-            throw error;
-        }
-    },
-
-    // Buscar pacientes
-    async buscarPacientes(criterio) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'buscar_pacientes',
-                    criterio: criterio
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al buscar pacientes:', error);
-            throw error;
-        }
-    },
-
-    // Obtener historial de paciente
-    async obtenerHistorial(idPaciente) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'obtener_historial',
-                    id_paciente: idPaciente
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al obtener historial:', error);
-            throw error;
-        }
-    },
-
-    // Agregar seguimiento
-    async agregarSeguimiento(datoSeguimiento) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'agregar_seguimiento',
-                    ...datoSeguimiento
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al agregar seguimiento:', error);
-            throw error;
-        }
-    },
-
-    // Listar todos los pacientes
-    async listarTodosPacientes() {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'listar_todos_pacientes'
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al listar pacientes:', error);
-            throw error;
-        }
-    },
-
-    // Obtener tipos de muestra
-    async obtenerTiposMuestra() {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'obtener_tipos_muestra'
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al obtener tipos de muestra:', error);
-            throw error;
-        }
-    },
-
-    // Obtener tipos de resultado
-    async obtenerTiposResultado() {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'obtener_tipos_resultado'
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al obtener tipos de resultado:', error);
-            throw error;
-        }
-    },
-
-    // Obtener tipos de "cuenta con"
-    async obtenerTiposCuentaCon() {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'obtener_tipos_cuenta_con'
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al obtener tipos cuenta con:', error);
-            throw error;
-        }
-    },
-
-    // Agregar tipo de muestra
-    async agregarTipoMuestra(tipo) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'agregar_tipo_muestra',
-                    tipo: tipo
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al agregar tipo de muestra:', error);
-            throw error;
-        }
-    },
-
-    // Agregar tipo de resultado
-    async agregarTipoResultado(tipo) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'agregar_tipo_resultado',
-                    tipo: tipo
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al agregar tipo de resultado:', error);
-            throw error;
-        }
-    },
-
-    // Agregar tipo de "cuenta con"
-    async agregarTipoCuentaCon(tipo) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'agregar_tipo_cuenta_con',
-                    tipo: tipo
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al agregar tipo cuenta con:', error);
-            throw error;
-        }
-    },
-
-    // Cambiar estado de paciente
-    async cambiarEstadoPaciente(idPaciente, motivo, usuario) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'cambiar_estado_paciente',
-                    id_paciente: idPaciente,
-                    motivo_baja: motivo,
-                    dado_baja_por: usuario
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al cambiar estado:', error);
-            throw error;
-        }
-    },
-
-    // Subir archivo
-    async subirArchivo(fileBase64, mimeType, fileName, pacienteId) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'subir_archivo',
-                    file_base64: fileBase64,
-                    mime_type: mimeType,
-                    file_name: fileName,
-                    paciente_id: pacienteId
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error al subir archivo:', error);
-            throw error;
-        }
+    if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`);
     }
-};
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error en fetchData:', error);
+    return {
+      success: false,
+      message: error.message || 'Error de conexión'
+    };
+  }
+}
+
+// Función auxiliar para hacer peticiones POST
+async function postData(action, payload = {}) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action,
+        ...payload
+      }),
+      redirect: 'follow'
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error en postData:', error);
+    return {
+      success: false,
+      message: error.message || 'Error de conexión'
+    };
+  }
+}
+
+// ==================== AUTENTICACIÓN ====================
+
+export async function login(usuario, contraseña) {
+  return await fetchData('login', { usuario, contraseña });
+}
+
+// ==================== PACIENTES ====================
+
+export async function registrarPaciente(pacienteData) {
+  return await postData('registrar_paciente', pacienteData);
+}
+
+export async function buscarPacientes(criterio) {
+  return await fetchData('buscar_pacientes', { criterio });
+}
+
+export async function listarTodosPacientes() {
+  return await fetchData('listar_todos_pacientes');
+}
+
+export async function obtenerHistorialPaciente(idPaciente) {
+  return await fetchData('obtener_historial', { id_paciente: idPaciente });
+}
+
+export async function agregarSeguimiento(seguimientoData) {
+  return await postData('agregar_seguimiento', seguimientoData);
+}
+
+export async function cambiarEstadoPaciente(idPaciente, estado, motivo, usuario) {
+  return await postData('cambiar_estado_paciente', {
+    id_paciente: idPaciente,
+    estado,
+    motivo,
+    usuario
+  });
+}
+
+export async function actualizarUrls(idPaciente, fotoUrl, archivosUrls) {
+  return await postData('actualizar_urls', {
+    id_paciente: idPaciente,
+    foto_url: fotoUrl || '',
+    archivos_urls: archivosUrls || ''
+  });
+}
+
+// ==================== TIPOS (CATÁLOGOS) ====================
+
+export async function obtenerTiposMuestra() {
+  return await fetchData('obtener_tipos_muestra');
+}
+
+export async function obtenerTiposResultado() {
+  return await fetchData('obtener_tipos_resultado');
+}
+
+export async function obtenerTiposCuentaCon() {
+  return await fetchData('obtener_tipos_cuenta_con');
+}
+
+export async function agregarTipoMuestra(tipo) {
+  return await postData('agregar_tipo_muestra', { tipo });
+}
+
+export async function agregarTipoResultado(tipo) {
+  return await postData('agregar_tipo_resultado', { tipo });
+}
+
+export async function agregarTipoCuentaCon(tipo) {
+  return await postData('agregar_tipo_cuenta_con', { tipo });
+}
+
+// ==================== ARCHIVOS ====================
+
+export async function subirArchivo(fileBase64, fileName, mimeType, pacienteId) {
+  return await postData('subir_archivo', {
+    file_base64: fileBase64,
+    file_name: fileName,
+    mime_type: mimeType,
+    paciente_id: pacienteId
+  });
+}
+
+// Función auxiliar para convertir File a Base64
+export function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      // Remover el prefijo "data:image/png;base64," o similar
+      const base64 = reader.result.split(',')[1];
+      resolve(base64);
+    };
+    reader.onerror = error => reject(error);
+  });
+}
+
+// ==================== UTILIDADES ====================
+
+export function formatearFecha(fecha) {
+  if (!fecha) return '';
+  const date = new Date(fecha);
+  return date.toLocaleDateString('es-PE', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+export function calcularDiasDesdeRegistro(fecha) {
+  if (!fecha) return 0;
+  const fechaRegistro = new Date(fecha);
+  const hoy = new Date();
+  const diferencia = hoy - fechaRegistro;
+  return Math.floor(diferencia / (1000 * 60 * 60 * 24));
+}
