@@ -1,0 +1,25 @@
+para sincronizar git hub
+ 1.- instalar GIT buscar en Google e instalar.
+2.- crear una cuenta en GitHub.
+configurar GitHub un nuevo repositorio ; nuevo repositorio, publico, luego colocar el Main, y esperar que se coloque verde chek.
+3.- instalr visual studio code
+en visual studio : clonar repositorio, clegir clonar repositorio GitHub, elegir la cuenta y guardar en una carpeta.
+4.- ahora para sincronizar,  commnit, escribir feat: y comentario, aceptar y en la terminar escribir:
+git config --global user.name <usuario> colocar el nombre del usuario de GitHub
+git config --global user.email <correo> colocar el correo del usuario de GitHub
+
+
+
+eliminar vs code
+1.- Desinstalamos totalmente Visual Studio Code
+2.- Abrir la ventana de ejecutar (Tecla [Win] + [R]) Y escribimos:
+%userprofile%\AppData\Roaming
+Buscamos la carpeta **Code **y nos disponemos a borrarla, seleccionándola y presionando la tecla [Supr]. Esto borrará cualquier configuración previa.
+3.- (Opcional) Si tampoco nos interesan conservar las extensiones instaladas previamente se puede optar por borrar también la siguiente carpeta: Otra vez, abrimos la ventana de ejecutar y escribimos:
+%userprofile%
+En esta carpeta buscamos la que se llame .vscode y la borramos.
+4.- Finalmente volvemos a reinstalar VS Code como si fuera la primera vez, y… listo!
+Saludos.
+
+Fuente:
+

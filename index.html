@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital San Juan de Dios - Sistema de Gestión</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div id="login-screen" class="screen active">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="hospital-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm-1 15h2v-2h-2v2zm0-4h2V7h-2v6z"/>
+                    </svg>
+                </div>
+                <h1>Hospital San Juan de Dios</h1>
+                <p>Sistema de Gestión de Pacientes</p>
+            </div>
+            
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="usuario">Usuario</label>
+                    <input type="text" id="usuario" name="usuario" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contrasena">Contraseña</label>
+                    <input type="password" id="contrasena" name="contrasena" required>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="recordar" name="recordar">
+                    <label for="recordar">Recordar usuario</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    Iniciar Sesión
+                </button>
+                
+                <div id="login-error" class="error-message" style="display: none;"></div>
+            </form>
+            
+            <div class="login-footer">
+                <p>Versión 1.0.0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla Principal (Home) -->
+    <div id="home-screen" class="screen">
+        <header class="main-header">
+            <div class="header-content">
+                <h1>Hospital San Juan de Dios</h1>
+                <div class="user-info">
+                    <span id="user-name"></span>
+                    <span id="user-role" class="badge"></span>
+                    <button id="logout-btn" class="btn btn-secondary">Cerrar Sesión</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="dashboard-grid">
+                <div class="dashboard-card" id="card-lista-pacientes">
+                    <div class="card-icon" style="background-color: #2196F3;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Lista de Pacientes</h3>
+                        <p>Ver todos los pacientes registrados</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card" id="card-nuevo-registro">
+                    <div class="card-icon" style="background-color: #4CAF50;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Nuevo Registro</h3>
+                        <p>Registrar nuevo paciente</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card" id="card-buscar">
+                    <div class="card-icon" style="background-color: #FF9800;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Buscar Expedientes</h3>
+                        <p>Buscar por nombre, DNI o código</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Pantalla Lista de Pacientes -->
+    <div id="lista-pacientes-screen" class="screen">
+        <header class="secondary-header">
+            <button class="btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+                Volver
+            </button>
+            <h2>Lista de Pacientes</h2>
+            <button id="refresh-btn" class="btn btn-secondary">Actualizar</button>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <label>Filtrar por estado:</label>
+                    <div class="filter-chips">
+                        <button class="filter-chip active" data-filter="TODOS">Todos</button>
+                        <button class="filter-chip" data-filter="ACTIVO">Activos</button>
+                        <button class="filter-chip" data-filter="INACTIVO">Inactivos</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pacientes-count" class="info-bar"></div>
+
+            <div id="pacientes-list" class="list-container">
+                <div class="loading">Cargando pacientes...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla Nuevo Registro -->
+    <div id="nuevo-registro-screen" class="screen">
+        <header class="secondary-header">
+            <button class="btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+                Volver
+            </button>
+            <h2>Nuevo Registro de Paciente</h2>
+        </header>
+
+        <div class="content-wrapper">
+            <form id="registro-form" class="patient-form">
+                <!-- El formulario se cargará dinámicamente -->
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p id="loading-message">Procesando...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="api-service.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

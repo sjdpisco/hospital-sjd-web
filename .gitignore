@@ -1,0 +1,13 @@
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración local
+config.local.js
+
+# Node modules (si usas npm en el futuro)
+node_modules/
+
+# Archivos temporales
+*.log
+*.tmp

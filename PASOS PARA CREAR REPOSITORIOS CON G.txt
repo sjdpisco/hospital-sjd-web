@@ -1,0 +1,29 @@
+PASOS PARA CREAR REPOSITORIOS CON GUT HUB:
+1 crear un nuevo repositorio en git hubb
+
+PASO 1: Configuración Inicial de Git en tu PC
+Primero, necesitamos configurar Git con tu información. Abre Git Bash o la terminal de VSCode y ejecuta estos comandos (reemplaza con tu información):
+
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu-email@ejemplo.com"
+
+git config --global --list
+
+
+Completa la información:
+
+Repository name: hospital-san-juan-web (o el nombre que prefieras)
+Description: Sistema web de gestión de pacientes - Hospital San Juan de Dios
+Visibilidad: Selecciona Private (para que solo tú lo veas) o Public (si quieres que sea público)
+NO marques "Add a README file"
+NO marques "Add .gitignore"
+NO marques "Choose a license"
+
+
+Haz clic en "Create repository"
+
+4.- crear una carpeta  y crear el proyeto : mkdir hospital-sjd-web
+ cd hospital-sjd-web
+git init
+git remote add origin https://github.com/sjdpisco/hospital-sjd-web.git
+git remote -v
