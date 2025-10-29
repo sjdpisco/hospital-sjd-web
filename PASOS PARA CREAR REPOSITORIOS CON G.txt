@@ -27,3 +27,8 @@ Haz clic en "Create repository"
 git init
 git remote add origin https://github.com/sjdpisco/hospital-sjd-web.git
 git remote -v
+
+git add .
+git commit - m "nada"
+git push origin main
+
