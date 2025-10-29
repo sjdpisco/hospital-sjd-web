@@ -23,3 +23,8 @@ Saludos.
 
 Fuente:
 
+git add .
+git commit -m "nuevo agregado"
+git push origin main
+
+
