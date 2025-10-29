@@ -4,139 +4,374 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Hospital San Juan de Dios</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="expedientes-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="dashboard.html">
-                <i class="bi bi-hospital"></i> Hospital San Juan de Dios
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <span class="navbar-text text-white me-3">
-                            <i class="bi bi-person-circle"></i> 
-                            <span id="nombreUsuario"></span> 
-                            (<span id="rolUsuario"></span>)
-                        </span>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn btn-outline-light btn-sm" id="btnCerrarSesion">
-                            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
-                        </button>
-                    </li>
-                </ul>
-            </div>
+<body class="dashboard-page">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-hospital-alt"></i>
+            <h2>Hospital San Juan de Dios</h2>
         </div>
-    </nav>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- SIDEBAR -->
-            <div class="col-md-3 col-lg-2 bg-light sidebar p-3">
-                <div class="d-grid gap-2">
-                    <a href="dashboard.html" class="btn btn-outline-primary active">
-                        <i class="bi bi-house-door"></i> Inicio
-                    </a>
-                    <a href="nuevo-registro.html" class="btn btn-outline-primary">
-                        <i class="bi bi-person-plus"></i> Nuevo Registro
-                    </a>
-                    <a href="buscar-paciente.html" class="btn btn-outline-primary">
-                        <i class="bi bi-search"></i> Buscar Paciente
-                    </a>
-                    <a href="lista-pacientes.html" class="btn btn-outline-primary">
-                        <i class="bi bi-list-ul"></i> Lista de Pacientes
-                    </a>
-                    <a href="configuracion.html" class="btn btn-outline-primary">
-                        <i class="bi bi-gear"></i> Configuración
-                    </a>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="inicio">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="#" class="nav-item" data-section="nuevo">
+                <i class="fas fa-user-plus"></i>
+                <span>Nuevo Registro</span>
+            </a>
+            <a href="#" class="nav-item" data-section="buscar">
+                <i class="fas fa-search"></i>
+                <span>Buscar Paciente</span>
+            </a>
+            <a href="#" class="nav-item" data-section="lista">
+                <i class="fas fa-list"></i>
+                <span>Lista de Pacientes</span>
+            </a>
+            <a href="#" class="nav-item" data-section="configuracion">
+                <i class="fas fa-cog"></i>
+                <span>Configuración</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span id="nombreUsuario">Usuario</span>
+            </div>
+            <button onclick="cerrarSesion()" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </button>
+        </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <h1 id="tituloSeccion">
+                <i class="fas fa-home"></i> Panel de Inicio
+            </h1>
+            <div class="header-actions">
+                <button class="btn-icon" title="Notificaciones">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Sección: Inicio -->
+        <section id="seccion-inicio" class="content-section active">
+            <!-- Tarjetas de estadísticas -->
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total Pacientes</h3>
+                        <p class="stat-number" id="totalPacientes">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card green">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Pacientes Activos</h3>
+                        <p class="stat-number" id="pacientesActivos">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card orange">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Registros Hoy</h3>
+                        <p class="stat-number" id="registrosHoy">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card purple">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Última Actualización</h3>
+                        <p class="stat-number" id="ultimaActualizacion">--:--</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- CONTENIDO -->
-            <div class="col-md-9 col-lg-10 p-4">
-                <h2 class="mb-4"><i class="bi bi-house-door"></i> Panel de Inicio</h2>
-                
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <div class="card text-white bg-primary">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-people"></i> Total Pacientes</h5>
-                                <h2 class="card-text" id="totalPacientes">0</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="card text-white bg-success">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-check-circle"></i> Pacientes Activos</h5>
-                                <h2 class="card-text" id="pacientesActivos">0</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="card text-white bg-warning">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-calendar-event"></i> Registros Hoy</h5>
-                                <h2 class="card-text" id="registrosHoy">0</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="alert alert-info mt-4">
-                    <h5><i class="bi bi-info-circle"></i> Bienvenido al Sistema</h5>
+            <!-- Bienvenida -->
+            <div class="welcome-card">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <h3>Bienvenido al Sistema</h3>
                     <p>Utiliza el menú lateral para navegar entre las diferentes secciones del sistema.</p>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- Acciones rápidas -->
+            <div class="quick-actions">
+                <h3><i class="fas fa-bolt"></i> Acciones Rápidas</h3>
+                <div class="actions-grid">
+                    <button class="action-btn" onclick="cambiarSeccion('nuevo')">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Nuevo Paciente</span>
+                    </button>
+                    <button class="action-btn" onclick="cambiarSeccion('buscar')">
+                        <i class="fas fa-search"></i>
+                        <span>Buscar</span>
+                    </button>
+                    <button class="action-btn" onclick="cambiarSeccion('lista')">
+                        <i class="fas fa-list"></i>
+                        <span>Ver Lista</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección: Nuevo Registro -->
+        <section id="seccion-nuevo" class="content-section">
+            <div class="form-container-wide">
+                <h2><i class="fas fa-user-plus"></i> Registrar Nuevo Paciente</h2>
+                
+                <form id="formNuevoPaciente" class="patient-form">
+                    <!-- DATOS PERSONALES -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-user"></i> Datos Personales</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombres">
+                                    <i class="fas fa-id-card"></i> Nombres Completos *
+                                </label>
+                                <input type="text" id="nombres" name="nombres" required 
+                                       placeholder="Ej: Juan Carlos Pérez López">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="dni">
+                                    <i class="fas fa-id-badge"></i> DNI *
+                                </label>
+                                <input type="text" id="dni" name="dni" required 
+                                       pattern="[0-9]{8}" maxlength="8"
+                                       placeholder="12345678">
+                                <small>8 dígitos</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edad">
+                                    <i class="fas fa-birthday-cake"></i> Edad *
+                                </label>
+                                <input type="number" id="edad" name="edad" required 
+                                       min="0" max="120" placeholder="Ej: 45">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="celular">
+                                    <i class="fas fa-phone"></i> Celular *
+                                </label>
+                                <input type="tel" id="celular" name="celular" required 
+                                       pattern="[0-9]{9}" maxlength="9"
+                                       placeholder="987654321">
+                                <small>9 dígitos</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="celularOpcional">
+                                    <i class="fas fa-phone-alt"></i> Celular Opcional
+                                </label>
+                                <input type="tel" id="celularOpcional" name="celularOpcional" 
+                                       pattern="[0-9]{9}" maxlength="9"
+                                       placeholder="987654321">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="direccion">
+                                <i class="fas fa-map-marker-alt"></i> Dirección *
+                            </label>
+                            <textarea id="direccion" name="direccion" rows="2" required
+                                      placeholder="Ej: Av. Los Pinos 123, San Juan de Lurigancho"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- INFORMACIÓN MÉDICA -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-stethoscope"></i> Información Médica</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="muestra">
+                                    <i class="fas fa-vial"></i> Tipo de Muestra *
+                                </label>
+                                <select id="muestra" name="muestra" required>
+                                    <option value="">Cargando opciones...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="resultado">
+                                    <i class="fas fa-clipboard-check"></i> Resultado *
+                                </label>
+                                <select id="resultado" name="resultado" required>
+                                    <option value="">Cargando opciones...</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- YA CUENTA CON -->
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-check-square"></i> Ya Cuenta Con:
+                            </label>
+                            <div id="cuentaConContainer" class="checkbox-grid">
+                                <p class="loading">Cargando opciones...</p>
+                            </div>
+                        </div>
+
+                        <!-- TRATAMIENTO PARTICULAR -->
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="checkTratamiento" name="checkTratamiento">
+                                <span>¿Cuenta con tratamiento particular?</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group" id="tratamientoContainer" style="display: none;">
+                            <label for="tratamientoParticular">
+                                <i class="fas fa-pills"></i> Detalles del Tratamiento
+                            </label>
+                            <textarea id="tratamientoParticular" name="tratamientoParticular" 
+                                      rows="3" placeholder="Describa el tratamiento..."></textarea>
+                        </div>
+
+                        <!-- OBSERVACIONES -->
+                        <div class="form-group">
+                            <label for="observacion">
+                                <i class="fas fa-notes-medical"></i> Observaciones
+                            </label>
+                            <textarea id="observacion" name="observacion" rows="3"
+                                      placeholder="Observaciones adicionales..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- ARCHIVOS ADJUNTOS -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-paperclip"></i> Archivos Adjuntos</h3>
+                        
+                        <!-- FOTO DEL PACIENTE -->
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-camera"></i> Foto del Paciente
+                            </label>
+                            <div class="file-upload-area">
+                                <input type="file" id="fotoPaciente" accept="image/*" 
+                                       style="display: none;">
+                                <button type="button" class="btn btn-secondary" 
+                                        onclick="document.getElementById('fotoPaciente').click()">
+                                    <i class="fas fa-camera"></i> Seleccionar Foto
+                                </button>
+                                <div id="fotoPreview" class="file-preview"></div>
+                            </div>
+                        </div>
+
+                        <!-- DOCUMENTOS ADICIONALES -->
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-file-alt"></i> Documentos Adicionales (Máx. 5)
+                            </label>
+                            <div class="file-upload-area">
+                                <input type="file" id="documentos" multiple 
+                                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" 
+                                       style="display: none;">
+                                <button type="button" class="btn btn-secondary" 
+                                        onclick="document.getElementById('documentos').click()">
+                                    <i class="fas fa-upload"></i> Seleccionar Documentos
+                                </button>
+                                <div id="documentosPreview" class="file-preview"></div>
+                            </div>
+                            <small>Formatos: PDF, DOC, DOCX, JPG, PNG (Máx. 5MB cada uno)</small>
+                        </div>
+                    </div>
+
+                    <!-- BOTONES DE ACCIÓN -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="btnGuardar">
+                            <i class="fas fa-save"></i> Guardar Paciente
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="limpiarFormularioDashboard()">
+                            <i class="fas fa-eraser"></i> Limpiar Formulario
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Sección: Buscar Paciente -->
+        <section id="seccion-buscar" class="content-section">
+            <div class="search-container">
+                <h2><i class="fas fa-search"></i> Buscar Paciente</h2>
+                <div class="search-box">
+                    <input type="text" id="inputBuscar" placeholder="Ingrese nombre o ID del paciente...">
+                    <button onclick="buscarPaciente()" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                </div>
+                <div id="resultadoBusqueda" class="search-results"></div>
+            </div>
+        </section>
+
+        <!-- Sección: Lista de Pacientes (CON GESTIÓN DE EXPEDIENTES) -->
+        <section id="seccion-lista" class="content-section">
+            <div class="list-container">
+                <div class="list-header">
+                    <h2><i class="fas fa-list"></i> Lista de Pacientes</h2>
+                    <button onclick="inicializarListaPacientes()" class="btn btn-secondary">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </button>
+                </div>
+                <div id="listaPacientesContainer">
+                    <p class="loading">Cargando pacientes...</p>
+                </div>
+                
+                <!-- Fallback para tabla simple (oculto por defecto) -->
+                <div id="tablaPacientes" style="display: none;">
+                    <p class="loading">Cargando pacientes...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección: Configuración -->
+        <section id="seccion-configuracion" class="content-section">
+            <div class="config-container">
+                <h2><i class="fas fa-cog"></i> Configuración</h2>
+                <div class="config-card">
+                    <h3><i class="fas fa-user-circle"></i> Información del Usuario</h3>
+                    <p><strong>Usuario:</strong> <span id="configUsuario">-</span></p>
+                    <p><strong>Rol:</strong> <span id="configRol">-</span></p>
+                    <p><strong>Última sesión:</strong> <span id="configUltimaSesion">-</span></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
     <script src="api-service.js"></script>
-    <script>
-        // Verificar sesión
-        const usuario = JSON.parse(localStorage.getItem('usuario'));
-        if (!usuario) {
-            window.location.href = 'index.html';
-        } else {
-            document.getElementById('nombreUsuario').textContent = usuario.nombre_completo;
-            document.getElementById('rolUsuario').textContent = usuario.rol;
-        }
-
-        // Cerrar sesión
-        document.getElementById('btnCerrarSesion').addEventListener('click', function() {
-            localStorage.removeItem('usuario');
-            window.location.href = 'index.html';
-        });
-
-        // Cargar estadísticas
-        async function cargarEstadisticas() {
-            try {
-                const data = await ApiService.listarTodosPacientes();
-                if (data.success) {
-                    const pacientes = data.data;
-                    document.getElementById('totalPacientes').textContent = pacientes.length;
-                    const activos = pacientes.filter(p => p.estado === 'ACTIVO').length;
-                    document.getElementById('pacientesActivos').textContent = activos;
-                    
-                    const hoy = new Date().toISOString().split('T')[0];
-                    const registrosHoy = pacientes.filter(p => p.fecha_registro.startsWith(hoy)).length;
-                    document.getElementById('registrosHoy').textContent = registrosHoy;
-                }
-            } catch (error) {
-                console.error('Error al cargar estadísticas:', error);
-            }
-        }
-
-        cargarEstadisticas();
-    </script>
+    <script src="dashboard.js"></script>
+    <script src="dashboard-form-manager.js"></script>
+    <script src="expedientes-manager.js"></script>
+    <script src="seguimiento-form-manager.js"></script>
 </body>
 </html>

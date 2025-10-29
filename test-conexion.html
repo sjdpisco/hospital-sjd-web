@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Conexión - Apps Script</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .test-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border: 1px solid #e5e7eb;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .success {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .info {
+            color: #3b82f6;
+        }
+
+        .log {
+            padding: 5px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            🔧 Test de Conexión - Google Apps Script
+        </h1>
+
+        <!-- URL del Script -->
+        <div class="test-section">
+            <h3>📡 Configuración de URL</h3>
+            <label>URL de tu Google Apps Script:</label>
+            <input type="text" id="apiUrl" 
+                   value="https://script.google.com/macros/s/AKfycbxToelrJkVmRQYgdrtR5W9qT9ZjcebWwFeTseDOr8Vc1SMeHwcLAAkebeulv7rUFtDO/exec"
+                   placeholder="Pega aquí tu URL">
+            <button onclick="guardarUrl()">💾 Guardar URL</button>
+        </div>
+
+        <!-- Test 1: Conexión Básica -->
+        <div class="test-section">
+            <h3>1️⃣ Test de Conexión Básica</h3>
+            <p>Verifica si el servidor responde</p>
+            <button onclick="testConexion()">🔌 Probar Conexión</button>
+            <div id="result1" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- Test 2: Tipos de Muestra -->
+        <div class="test-section">
+            <h3>2️⃣ Test: Obtener Tipos de Muestra</h3>
+            <button onclick="testTiposMuestra()">🧪 Obtener Tipos de Muestra</button>
+            <div id="result2" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- Test 3: Tipos de Resultado -->
+        <div class="test-section">
+            <h3>3️⃣ Test: Obtener Tipos de Resultado</h3>
+            <button onclick="testTiposResultado()">📊 Obtener Tipos de Resultado</button>
+            <div id="result3" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- Test 4: Tipos de Cuenta Con -->
+        <div class="test-section">
+            <h3>4️⃣ Test: Obtener Tipos de Cuenta Con</h3>
+            <button onclick="testTiposCuentaCon()">✅ Obtener Tipos de Cuenta Con</button>
+            <div id="result4" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- Test 5: Login -->
+        <div class="test-section">
+            <h3>5️⃣ Test: Login</h3>
+            <input type="text" id="usuario" placeholder="Usuario" value="jenny">
+            <input type="text" id="password" placeholder="Contraseña" value="jenny123">
+            <button onclick="testLogin()">🔐 Probar Login</button>
+            <div id="result5" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- Test Completo -->
+        <div class="test-section">
+            <h3>🚀 Ejecutar TODOS los Tests</h3>
+            <button onclick="testCompleto()" style="background: #10b981;">▶️ Ejecutar Test Completo</button>
+            <div id="resultCompleto" class="result" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        let API_URL = '';
+
+        // Cargar URL guardada
+        window.onload = function() {
+            const savedUrl = localStorage.getItem('api_url');
+            if (savedUrl) {
+                document.getElementById('apiUrl').value = savedUrl;
+                API_URL = savedUrl;
+            } else {
+                API_URL = document.getElementById('apiUrl').value;
+            }
+        };
+
+        function guardarUrl() {
+            API_URL = document.getElementById('apiUrl').value;
+            localStorage.setItem('api_url', API_URL);
+            alert('✅ URL guardada correctamente');
+        }
+
+        function log(containerId, message, type = 'info') {
+            const container = document.getElementById(containerId);
+            container.style.display = 'block';
+            
+            const logDiv = document.createElement('div');
+            logDiv.className = `log ${type}`;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML = `[${timestamp}] ${message}`;
+            
+            container.appendChild(logDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function clearLog(containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+        }
+
+        async function testConexion() {
+            clearLog('result1');
+            log('result1', '🔌 Iniciando test de conexión...', 'info');
+            log('result1', `📡 URL: ${API_URL}`, 'info');
+
+            try {
+                log('result1', '⏳ Enviando petición...', 'info');
+                const response = await fetch(API_URL);
+                
+                log('result1', `📥 Status: ${response.status}`, response.ok ? 'success' : 'error');
+                log('result1', `📥 Status Text: ${response.statusText}`, 'info');
+                log('result1', `📥 OK: ${response.ok}`, response.ok ? 'success' : 'error');
+
+                const text = await response.text();
+                log('result1', `📄 Respuesta (primeros 500 caracteres):`, 'info');
+                log('result1', text.substring(0, 500), 'info');
+
+                if (response.ok) {
+                    log('result1', '✅ CONEXIÓN EXITOSA', 'success');
+                } else {
+                    log('result1', '❌ CONEXIÓN FALLIDA', 'error');
+                }
+            } catch (error) {
+                log('result1', `❌ ERROR: ${error.message}`, 'error');
+                log('result1', `❌ Stack: ${error.stack}`, 'error');
+            }
+        }
+
+        async function testTiposMuestra() {
+            clearLog('result2');
+            log('result2', '🧪 Obteniendo tipos de muestra...', 'info');
+
+            const url = `${API_URL}?action=obtener_tipos_muestra`;
+            log('result2', `🔗 URL: ${url}`, 'info');
+
+            try {
+                const response = await fetch(url);
+                log('result2', `📥 Status: ${response.status}`, 'info');
+
+                const text = await response.text();
+                log('result2', `📄 Response raw: ${text}`, 'info');
+
+                const data = JSON.parse(text);
+                log('result2', `📦 Data parseada:`, 'info');
+                log('result2', JSON.stringify(data, null, 2), 'info');
+
+                if (data.success) {
+                    log('result2', `✅ Success: ${data.success}`, 'success');
+                    log('result2', `📊 Total tipos: ${data.data.length}`, 'success');
+                    data.data.forEach((tipo, i) => {
+                        log('result2', `   ${i + 1}. ${tipo.tipo} (ID: ${tipo.id})`, 'info');
+                    });
+                } else {
+                    log('result2', `❌ Error: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                log('result2', `❌ ERROR: ${error.message}`, 'error');
+            }
+        }
+
+        async function testTiposResultado() {
+            clearLog('result3');
+            log('result3', '📊 Obteniendo tipos de resultado...', 'info');
+
+            const url = `${API_URL}?action=obtener_tipos_resultado`;
+            log('result3', `🔗 URL: ${url}`, 'info');
+
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                log('result3', `📄 Response: ${text}`, 'info');
+
+                const data = JSON.parse(text);
+                log('result3', JSON.stringify(data, null, 2), 'info');
+
+                if (data.success) {
+                    log('result3', `✅ Total tipos: ${data.data.length}`, 'success');
+                    data.data.forEach((tipo, i) => {
+                        log('result3', `   ${i + 1}. ${tipo.tipo}`, 'info');
+                    });
+                } else {
+                    log('result3', `❌ Error: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                log('result3', `❌ ERROR: ${error.message}`, 'error');
+            }
+        }
+
+        async function testTiposCuentaCon() {
+            clearLog('result4');
+            log('result4', '✅ Obteniendo tipos de cuenta con...', 'info');
+
+            const url = `${API_URL}?action=obtener_tipos_cuenta_con`;
+            log('result4', `🔗 URL: ${url}`, 'info');
+
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                log('result4', `📄 Response: ${text}`, 'info');
+
+                const data = JSON.parse(text);
+                log('result4', JSON.stringify(data, null, 2), 'info');
+
+                if (data.success) {
+                    log('result4', `✅ Total tipos: ${data.data.length}`, 'success');
+                    data.data.forEach((tipo, i) => {
+                        log('result4', `   ${i + 1}. ${tipo.tipo}`, 'info');
+                    });
+                } else {
+                    log('result4', `❌ Error: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                log('result4', `❌ ERROR: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLogin() {
+            clearLog('result5');
+            const usuario = document.getElementById('usuario').value;
+            const password = document.getElementById('password').value;
+
+            log('result5', '🔐 Probando login...', 'info');
+            log('result5', `👤 Usuario: ${usuario}`, 'info');
+
+            const url = `${API_URL}?action=login&usuario=${usuario}&contraseña=${password}`;
+            log('result5', `🔗 URL: ${url}`, 'info');
+
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                log('result5', `📄 Response: ${text}`, 'info');
+
+                const data = JSON.parse(text);
+                log('result5', JSON.stringify(data, null, 2), 'info');
+
+                if (data.success) {
+                    log('result5', `✅ LOGIN EXITOSO`, 'success');
+                    log('result5', `👤 Usuario: ${data.data.usuario}`, 'success');
+                    log('result5', `👤 Nombre: ${data.data.nombre_completo}`, 'success');
+                    log('result5', `👤 Rol: ${data.data.rol}`, 'success');
+                } else {
+                    log('result5', `❌ Error: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                log('result5', `❌ ERROR: ${error.message}`, 'error');
+            }
+        }
+
+        async function testCompleto() {
+            clearLog('resultCompleto');
+            log('resultCompleto', '🚀 INICIANDO TEST COMPLETO...', 'info');
+            log('resultCompleto', '═'.repeat(50), 'info');
+
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            log('resultCompleto', '\n1️⃣ Test de Conexión Básica:', 'info');
+            await testConexionSimple('resultCompleto');
+            
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            log('resultCompleto', '\n2️⃣ Test de Tipos de Muestra:', 'info');
+            await testTiposMuestraSimple('resultCompleto');
+            
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            log('resultCompleto', '\n3️⃣ Test de Tipos de Resultado:', 'info');
+            await testTiposResultadoSimple('resultCompleto');
+            
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            log('resultCompleto', '\n4️⃣ Test de Tipos de Cuenta Con:', 'info');
+            await testTiposCuentaConSimple('resultCompleto');
+
+            log('resultCompleto', '\n' + '═'.repeat(50), 'info');
+            log('resultCompleto', '🎉 TEST COMPLETO FINALIZADO', 'success');
+        }
+
+        async function testConexionSimple(containerId) {
+            try {
+                const response = await fetch(API_URL);
+                if (response.ok) {
+                    log(containerId, '   ✅ Conexión OK', 'success');
+                } else {
+                    log(containerId, `   ❌ Error: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                log(containerId, `   ❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testTiposMuestraSimple(containerId) {
+            try {
+                const response = await fetch(`${API_URL}?action=obtener_tipos_muestra`);
+                const data = await response.json();
+                if (data.success) {
+                    log(containerId, `   ✅ ${data.data.length} tipos encontrados`, 'success');
+                } else {
+                    log(containerId, `   ❌ ${data.message}`, 'error');
+                }
+            } catch (error) {
+                log(containerId, `   ❌ ${error.message}`, 'error');
+            }
+        }
+
+        async function testTiposResultadoSimple(containerId) {
+            try {
+                const response = await fetch(`${API_URL}?action=obtener_tipos_resultado`);
+                const data = await response.json();
+                if (data.success) {
+                    log(containerId, `   ✅ ${data.data.length} tipos encontrados`, 'success');
+                } else {
+                    log(containerId, `   ❌ ${data.message}`, 'error');
+                }
+            } catch (error) {
+                log(containerId, `   ❌ ${error.message}`, 'error');
+            }
+        }
+
+        async function testTiposCuentaConSimple(containerId) {
+            try {
+                const response = await fetch(`${API_URL}?action=obtener_tipos_cuenta_con`);
+                const data = await response.json();
+                if (data.success) {
+                    log(containerId, `   ✅ ${data.data.length} tipos encontrados`, 'success');
+                } else {
+                    log(containerId, `   ❌ ${data.message}`, 'error');
+                }
+            } catch (error) {
+                log(containerId, `   ❌ ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>
